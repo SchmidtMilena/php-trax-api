@@ -8,11 +8,11 @@ use Carbon\CarbonImmutable;
 
 class Trip
 {
-    private $id;
-    private $userId;
-    private $car;
-    private $date;
-    private $miles;
+    private int $id;
+    private int $userId;
+    private Car $car;
+    private CarbonImmutable $date;
+    private int $miles;
 
     public function __construct(int $id, int $userId, Car $car, CarbonImmutable $date, int $miles) {
         $this->id = $id;
