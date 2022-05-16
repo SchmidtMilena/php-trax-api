@@ -39,7 +39,7 @@ COMPOSE_PROJECT_NAME=laradock
 
 # Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM).
 # Accepted values: 7.4 - 7.3 - 7.2 - 7.1 - 7.0 - 5.6
-PHP_VERSION=7.3
+PHP_VERSION=7.4
 
 ### Phalcon Version ###########################################
 
@@ -266,7 +266,7 @@ PHP_FPM_AUDIOWAVEFORM=false
 PHP_FPM_ADDITIONAL_LOCALES="en_US.UTF-8 es_ES.UTF-8 fr_FR.UTF-8"
 PHP_FPM_INSTALL_DOCKER_CLIENT=false
 PHP_FPM_DEFAULT_LOCALE=POSIX
-PHP_FPM_XDEBUG_PORT=9003
+PHP_FPM_XDEBUG_PORT=9004
 
 PHP_FPM_PUID=1000
 PHP_FPM_PGID=1000
@@ -504,8 +504,8 @@ PMA_PASSWORD=secret
 PMA_ROOT_PASSWORD=secret
 PMA_PORT=8081
 PMA_MAX_EXECUTION_TIME=600
-PMA_MEMORY_LIMIT=256M
-PMA_UPLOAD_LIMIT=2G
+PMA_MEMORY_LIMIT=2560M
+PMA_UPLOAD_LIMIT=8G
 
 ### MAILDEV ###############################################
 
