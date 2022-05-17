@@ -40,14 +40,15 @@ class TripController extends Controller
         $data = $request->only(self::STORE_REQUEST_FIELDS);
         $data['userId'] = Auth::id();
 
-        try{
+        try {
             $this->tripRepository->store($data);
-
-            return new JsonResponse([], Response::HTTP_CREATED);
-        } catch(HttpException $httpException) {
-            return new JsonResponse([], $httpException->getCode());
+            $code = Response::HTTP_CREATED;
+        } catch (HttpException $httpException) {
+            $code = $httpException->getCode();
         } catch (Exception $e) {
-            return new JsonResponse([], Response::HTTP_INTERNAL_SERVER_ERROR);
+            $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+        } finally {
+            return new JsonResponse([], $code);
         }
     }
 }
