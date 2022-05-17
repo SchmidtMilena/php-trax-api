@@ -17,6 +17,11 @@ class CreateTripsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
+            $table->unsignedBigInteger('car_id');
+            $table->foreign('car_id')
+                ->references('id')
+                ->on('cars')
+                ->onDelete('cascade');
             $table->date('date');
             $table->unsignedInteger('miles');
             $table->timestamps();
