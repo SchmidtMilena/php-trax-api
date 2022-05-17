@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CarCollectionResource;
 use App\Http\Resources\CarResource;
 use App\Services\Repositories\Contracts\CarRepositoryContract;
-use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreCarRequest;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -23,6 +22,7 @@ class CarController extends Controller
         'model',
     ];
 
+    // too bad that this project it on php 7.3 :( if it was >=7.4 I would add types for all properties
     private $carRepository;
 
     public function __construct(CarRepositoryContract $carRepository)
@@ -35,12 +35,13 @@ class CarController extends Controller
         return CarCollectionResource::collection($this->carRepository->findForUser());
     }
 
-    public function show(Car $car): Responsable
+    // this is not in requirements from readme, but it's needed for checking all functionalities on FE
+    public function show(Car $car): CarResource
     {
         return new CarResource($this->carRepository->show((int) $car->id));
     }
 
-    public function store(StoreCarRequest $request)
+    public function store(StoreCarRequest $request): JsonResponse
     {
         $data = $request->only(self::STORE_REQUEST_FIELDS);
         $data['user_id'] = Auth::id();
@@ -60,6 +61,5 @@ class CarController extends Controller
         $this->carRepository->delete($car->id);
 
         return new JsonResponse([], Response::HTTP_OK);
-
     }
 }

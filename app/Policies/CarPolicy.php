@@ -11,10 +11,15 @@ class CarPolicy
 {
     public function show(User $user, Car $car): bool
     {
-        return $user->id === $car->user_id;
+        return $this->checkOwner($user, $car);
     }
 
     public function delete(User $user, Car $car): bool
+    {
+        return $this->checkOwner($user, $car);
+    }
+
+    private function checkOwner(User $user, Car $car): bool
     {
         return $user->id === $car->user_id;
     }

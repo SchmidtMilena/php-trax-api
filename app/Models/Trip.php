@@ -44,7 +44,7 @@ class Trip extends Model
 
     public function getMilesAttribute($value): ?float
     {
-        return $value ? $value/self::DECIMAL_POINT_DELIMITER : null;
+        return $value ? $value / self::DECIMAL_POINT_DELIMITER : null;
     }
 
     protected static function booted()

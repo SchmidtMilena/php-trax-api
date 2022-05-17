@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTripRequest;
-use App\Http\Resources\TripResource;
+use App\Http\Resources\TripCollectionResource;
 use App\Services\Repositories\Contracts\TripRepositoryContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -29,7 +29,7 @@ class TripController extends Controller
 
     public function index(): AnonymousResourceCollection
     {
-        return TripResource::collection($this->tripRepository->findForUser());
+        return TripCollectionResource::collection($this->tripRepository->findForUser());
     }
 
     public function store(StoreTripRequest $request): JsonResponse

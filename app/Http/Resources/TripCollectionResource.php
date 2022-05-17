@@ -7,7 +7,7 @@ namespace App\Http\Resources;
 use App\Services\DomainModels\Trip;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TripResource extends JsonResource
+class TripCollectionResource extends JsonResource
 {
     public function toArray($request): array
     {

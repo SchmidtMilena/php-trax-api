@@ -58,6 +58,6 @@ class Car
 
     public function getMiles(): ?float
     {
-        return $this->miles ? $this->miles/self::DECIMAL_POINT_DELIMITER : null;
+        return $this->miles ? $this->miles / self::DECIMAL_POINT_DELIMITER : null;
     }
 }
