@@ -9,8 +9,8 @@ use App\Http\Resources\TripResource;
 use App\Services\Repositories\Contracts\TripRepositoryContract;
 use Illuminate\Http\JsonResponse;
 use Exception;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TripController extends Controller
@@ -21,7 +21,7 @@ class TripController extends Controller
         'miles',
     ];
 
-    private TripRepositoryContract $tripRepository;
+    private $tripRepository;
 
     public function __construct(TripRepositoryContract $tripRepository)
     {
@@ -42,6 +42,8 @@ class TripController extends Controller
 
         try{
             $this->tripRepository->store($data);
+
+            return new JsonResponse([], Response::HTTP_CREATED);
         } catch(HttpException $httpException) {
             return new JsonResponse([], $httpException->getCode());
         } catch (Exception $e) {

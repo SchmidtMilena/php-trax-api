@@ -9,7 +9,7 @@ use App\Services\Repositories\Contracts\CarRepositoryContract;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreCarRequest;
 use Exception;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -21,7 +21,7 @@ class CarController extends Controller
         'model',
     ];
 
-    private CarRepositoryContract $carRepository;
+    private $carRepository;
 
     public function __construct(CarRepositoryContract $carRepository)
     {
@@ -42,6 +42,8 @@ class CarController extends Controller
 
         try{
             $this->carRepository->store($data);
+
+            return new JsonResponse([], Response::HTTP_CREATED);
         } catch(HttpException $httpException) {
             return new JsonResponse([], $httpException->getCode());
         } catch (Exception $e) {
@@ -53,6 +55,8 @@ class CarController extends Controller
     {
         try{
             $this->carRepository->delete($id);
+
+            return new JsonResponse([], Response::HTTP_OK);
         } catch(HttpException $httpException) {
             return new JsonResponse([], $httpException->getCode());
         } catch (Exception $e) {

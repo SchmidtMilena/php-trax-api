@@ -6,11 +6,11 @@ namespace App\Services\DomainModels;
 
 class Car
 {
-    private int $id;
-    private int $userId;
-    private int $year;
-    private string $make;
-    private string $model;
+    private $id;
+    private $userId;
+    private $year;
+    private $make;
+    private $model;
 
     public function __construct(int $id, int $userId, int $year, string $make, string $model) {
         $this->id = $id;
