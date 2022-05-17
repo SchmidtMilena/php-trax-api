@@ -8,6 +8,8 @@ use Carbon\CarbonImmutable;
 
 class Trip
 {
+    private const DATE_FORMAT = 'm/d/Y';
+
     private $id;
     private $userId;
     private $car;
@@ -37,9 +39,9 @@ class Trip
         return $this->car;
     }
 
-    public function getDate(): CarbonImmutable
+    public function getDate(): string
     {
-        return $this->date;
+        return $this->date->format(self::DATE_FORMAT);
     }
 
     public function getMiles(): ?float

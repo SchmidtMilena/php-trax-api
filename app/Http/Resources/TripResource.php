@@ -17,7 +17,7 @@ class TripResource extends JsonResource
 
         return [
             'id'  => $trip->getId(),
-            'date' => $trip->getDate()->format('m/d/Y'),
+            'date' => $trip->getDate(),
             'miles' => $trip->getMiles(),
             'total' => 'no idea where it comes from',
             'car' => [

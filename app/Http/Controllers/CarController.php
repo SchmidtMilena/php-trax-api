@@ -52,10 +52,8 @@ class CarController extends Controller
             $code = Response::HTTP_CREATED;
         } catch (HttpException $httpException) {
             $code = $httpException->getCode();
-            throw $httpException;
         } catch (Exception $e) {
             $code = Response::HTTP_INTERNAL_SERVER_ERROR;
-            throw $e;
         } finally {
             return new JsonResponse([], $code);
         }
