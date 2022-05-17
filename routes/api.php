@@ -13,12 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+    //middleware can be also applied in controllers
+Route::middleware(['auth:api'])->group(function () {
 
-
-//////////////////////////////////////////////////////////////////////////
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    //////////////////////////////////////////////////////////////////////////
 /// Mock Endpoints To Be Replaced With RESTful API.
 /// - API implementation needs to return data in the format seen below.
 /// - Post data will be in the format seen below.
@@ -28,29 +29,35 @@ Route::get('/user', function (Request $request) {
 
 // Mock endpoint to get all cars for the logged in user
 
-Route::get('/cars', 'CarController@index')->middleware('auth:api');
+    Route::get('/cars', 'CarController@index');
 
 
 // Mock endpoint to add a new car.
 
-Route::post('car', 'CarController@store')->middleware('auth:api');
+    Route::post('car', 'CarController@store');
 
 
 // Mock endpoint to get a car with the given id
 
-Route::get('car/{car}', 'CarController@show')->middleware(['auth:api', 'can:show,car']);
+    Route::get('car/{car}', 'CarController@show')->middleware(['can:show,car']);
 
 
 // Mock endpoint to delete a car with a given id
 
-Route::delete('car/{car}', 'CarController@destroy')->middleware('auth:api');
+    Route::delete('car/{car}', 'CarController@destroy');
 
 
 // Mock endpoint to get the trips for the logged in user
 
-Route::get('/trips', 'TripController@index')->middleware('auth:api');
+    Route::get('/trips', 'TripController@index');
 
 
 // Mock endpoint to add a new trip.
 
-Route::post('trip', 'TripController@store')->middleware('auth:api');
+    Route::post('trip', 'TripController@store');
+});
+
+
+
+
+
