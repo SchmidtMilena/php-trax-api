@@ -9,12 +9,12 @@ use App\Models\User;
 
 class CarPolicy
 {
-    public function show(Car $car, User $user): bool
+    public function show(User $user, Car $car): bool
     {
         return $user->id === $car->user_id;
     }
 
-    public function delete(Car $car, User $user): bool
+    public function delete(User $user, Car $car): bool
     {
         return $user->id === $car->user_id;
     }

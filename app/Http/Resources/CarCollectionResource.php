@@ -7,7 +7,7 @@ namespace App\Http\Resources;
 use App\Services\DomainModels\Car;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CarResource extends JsonResource
+class CarCollectionResource extends JsonResource
 {
     public function toArray($request): array
     {
@@ -18,9 +18,7 @@ class CarResource extends JsonResource
             'id' => $car->getId(),
             'make' => $car->getMake(),
             'model' => $car->getModel(),
-            'year' => $car->getYear(),
-            'trip_count' => $car->getTrips(),
-            'trip_miles' => $car->getMiles()
+            'year' => $car->getYear()
         ];
     }
 }
