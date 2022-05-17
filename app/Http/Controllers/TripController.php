@@ -8,11 +8,9 @@ use App\Http\Requests\StoreTripRequest;
 use App\Http\Resources\TripResource;
 use App\Services\Repositories\Contracts\TripRepositoryContract;
 use Illuminate\Http\JsonResponse;
-use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TripController extends Controller
 {
@@ -38,16 +36,8 @@ class TripController extends Controller
     {
         $data = $request->only(self::STORE_REQUEST_FIELDS);
         $data['user_id'] = Auth::id();
+        $this->tripRepository->store($data);
 
-        try {
-            $this->tripRepository->store($data);
-            $code = Response::HTTP_CREATED;
-        } catch (HttpException $httpException) {
-            $code = $httpException->getCode();
-        } catch (Exception $e) {
-            $code = Response::HTTP_INTERNAL_SERVER_ERROR;
-        } finally {
-            return new JsonResponse([], $code);
-        }
+        return new JsonResponse([], Response::HTTP_CREATED);
     }
 }
