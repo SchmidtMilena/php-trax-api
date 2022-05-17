@@ -37,7 +37,7 @@ final class TripRepository implements TripRepositoryContract
     private function mapToDomainModel(TripModel $trip): Trip
     {
         /** @var CarModel $car */
-        $car = $trip->car();
+        $car = $trip->car()->first();
 
         $car = new Car(
             $car->id,

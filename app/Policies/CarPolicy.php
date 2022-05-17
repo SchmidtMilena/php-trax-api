@@ -9,6 +9,11 @@ use App\Models\User;
 
 class CarPolicy
 {
+    public function show(Car $car, User $user): bool
+    {
+        return $user->id === $car->user_id;
+    }
+
     public function delete(Car $car, User $user): bool
     {
         return $user->id === $car->user_id;

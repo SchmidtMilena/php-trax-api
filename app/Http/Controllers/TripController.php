@@ -9,21 +9,18 @@ use App\Http\Resources\TripResource;
 use App\Services\Repositories\Contracts\TripRepositoryContract;
 use Illuminate\Http\JsonResponse;
 use Exception;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TripController extends Controller
 {
-    private const DECIMAL_POINT_MULTIPLIER = 100;
-
     private const STORE_REQUEST_FIELDS = [
         'date',
         'car_id',
         'miles',
     ];
-
-    private const FLOAT_PRECISION = 2;
 
     private $tripRepository;
 
@@ -32,15 +29,15 @@ class TripController extends Controller
         $this->tripRepository = $tripRepository;
     }
 
-    public function index(): TripResource
+    public function index(): AnonymousResourceCollection
     {
-        return new TripResource($this->tripRepository->findForUser());
+        return TripResource::collection($this->tripRepository->findForUser());
     }
 
     public function store(StoreTripRequest $request): JsonResponse
     {
         $data = $request->only(self::STORE_REQUEST_FIELDS);
-        $data['userId'] = Auth::id();
+        $data['user_id'] = Auth::id();
 
         try {
             $this->tripRepository->store($data);

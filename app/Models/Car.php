@@ -43,7 +43,7 @@ class Car extends Model
 
     public function getTripsMilesSumAttribute(): ?int
     {
-        return $this->trips()->sum('miles');
+        return (int) $this->trips()->sum('miles');
     }
 
     protected static function booted()

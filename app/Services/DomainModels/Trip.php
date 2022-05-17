@@ -14,7 +14,7 @@ class Trip
     private $date;
     private $miles;
 
-    public function __construct(int $id, int $userId, Car $car, CarbonImmutable $date, int $miles) {
+    public function __construct(int $id, int $userId, Car $car, CarbonImmutable $date, ?float $miles) {
         $this->id = $id;
         $this->userId = $userId;
         $this->car = $car;
@@ -42,7 +42,7 @@ class Trip
         return $this->date;
     }
 
-    public function getMiles(): int
+    public function getMiles(): ?float
     {
         return $this->miles;
     }

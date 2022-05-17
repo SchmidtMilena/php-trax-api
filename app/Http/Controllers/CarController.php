@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CarCollectionResource;
 use App\Http\Resources\CarResource;
 use App\Services\Repositories\Contracts\CarRepositoryContract;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreCarRequest;
 use Exception;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -29,23 +32,30 @@ class CarController extends Controller
         $this->carRepository = $carRepository;
     }
 
-    public function index(): CarResource
+    public function index(): AnonymousResourceCollection
     {
-        return new CarResource($this->carRepository->findForUser());
+        return CarCollectionResource::collection($this->carRepository->findForUser());
     }
 
-    public function store(StoreCarRequest $request): JsonResponse
+    public function show(Car $car): Responsable
+    {
+        return new CarResource($this->carRepository->show((int) $car->id));
+    }
+
+    public function store(StoreCarRequest $request)
     {
         $data = $request->only(self::STORE_REQUEST_FIELDS);
-        $data['userId'] = Auth::id();
+        $data['user_id'] = Auth::id();
 
         try {
             $this->carRepository->store($data);
             $code = Response::HTTP_CREATED;
         } catch (HttpException $httpException) {
             $code = $httpException->getCode();
+            throw $httpException;
         } catch (Exception $e) {
             $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+            throw $e;
         } finally {
             return new JsonResponse([], $code);
         }

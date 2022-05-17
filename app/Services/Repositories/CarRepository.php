@@ -19,6 +19,14 @@ final class CarRepository implements CarRepositoryContract
         );
     }
 
+    public function show(int $id): Car
+    {
+        /** @var CarModel $car */
+        $car = CarModel::with('trips')->where('id', $id)->first();
+
+        return $this->mapToDomainModel($car);
+    }
+
     public function store(array $data): void
     {
         CarModel::create($data);
