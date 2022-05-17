@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repositories;
 
 use App\Services\DomainModels\Car;
+use App\Models\Car as CarModel;
 use App\Services\DomainModels\Trip;
 use App\Services\Repositories\Contracts\TripRepositoryContract;
 use Carbon\CarbonImmutable;
@@ -13,9 +14,9 @@ use App\Models\Trip as TripModel;
 
 final class TripRepository implements TripRepositoryContract
 {
-    public function findForUser(int $userId): Collection
+    public function findForUser(): Collection
     {
-        return TripModel::where('user_id', $userId)->get()->map(
+        return TripModel::with('car')->get()->map(
             function (TripModel $tripModel): Trip {
                 return $this->mapToDomainModel($tripModel);
             }
@@ -24,12 +25,18 @@ final class TripRepository implements TripRepositoryContract
 
     public function store(array $data): void
     {
-        TripModel::create($data);
+        $trip = new TripModel();
+        $trip->user_id = $data['user_id'];
+        $trip->car_id = $data['car_id'];
+        $trip->miles = $data['miles'];
+        $trip->date = $data['date'];
+
+        $trip->save();
     }
 
     private function mapToDomainModel(TripModel $trip): Trip
     {
-        /** @var \App\Models\Car $car */
+        /** @var CarModel $car */
         $car = $trip->car();
 
         $car = new Car(
@@ -37,7 +44,9 @@ final class TripRepository implements TripRepositoryContract
             $car->user_id,
             $car->year,
             $car->make,
-            $car->model
+            $car->model,
+            null,
+            null
         );
 
         return new Trip(

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Services\DomainModels\Trip;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TripResource extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function toArray($request)
+    public function toArray($request): array
     {
-        return parent::toArray($request);
+        /** @var Trip $trip */
+        $trip = $this;
+
+        return [
+
+        ];
     }
 }

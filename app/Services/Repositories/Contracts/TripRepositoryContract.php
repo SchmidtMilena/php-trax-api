@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 interface TripRepositoryContract
 {
-    public function findForUser(int $userId): Collection;
+    public function findForUser(): Collection;
 
     public function store(array $data): void;
 }

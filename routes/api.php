@@ -90,7 +90,7 @@ Route::get('/mock-get-car/{id}', function(Request $request) {
 
 // Mock endpoint to delete a car with a given id
 
-Route::delete('mock-delete-car/{id}', function(Request $request) {
+Route::delete('mock-delete-car/{car}', function(Request $request) {
 })->middleware('auth:api');
 
 

@@ -15,11 +15,15 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TripController extends Controller
 {
+    private const DECIMAL_POINT_MULTIPLIER = 100;
+
     private const STORE_REQUEST_FIELDS = [
         'date',
         'car_id',
         'miles',
     ];
+
+    private const FLOAT_PRECISION = 2;
 
     private $tripRepository;
 
@@ -30,9 +34,7 @@ class TripController extends Controller
 
     public function index(): TripResource
     {
-        $userId = Auth::id();
-
-        return new TripResource($this->tripRepository->findForUser($userId));
+        return new TripResource($this->tripRepository->findForUser());
     }
 
     public function store(StoreTripRequest $request): JsonResponse

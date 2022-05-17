@@ -12,6 +12,7 @@ use Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Models\Car;
 
 class CarController extends Controller
 {
@@ -30,9 +31,7 @@ class CarController extends Controller
 
     public function index(): CarResource
     {
-        $userId = Auth::id();
-
-        return new CarResource($this->carRepository->findForUser($userId));
+        return new CarResource($this->carRepository->findForUser());
     }
 
     public function store(StoreCarRequest $request): JsonResponse
@@ -52,10 +51,16 @@ class CarController extends Controller
         }
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(Car $car): JsonResponse
     {
+        $user = Auth::user();
+
+        if(!$user->can('delete', $car)) {
+            return new JsonResponse([], Response::HTTP_METHOD_NOT_ALLOWED);
+        }
+
         try {
-            $this->carRepository->delete($id);
+            $this->carRepository->delete($car->id);
             $code = Response::HTTP_OK;
         } catch (HttpException $httpException) {
             $code = $httpException->getCode();

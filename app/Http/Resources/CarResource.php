@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Services\DomainModels\Car;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class CarResource extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function toArray($request)
+    public function toArray($request): array
     {
-        return parent::toArray($request);
+        /** @var Car $car */
+        $car = $this;
+
+        return [
+
+        ];
     }
 }

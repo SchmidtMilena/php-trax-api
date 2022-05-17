@@ -6,18 +6,24 @@ namespace App\Services\DomainModels;
 
 class Car
 {
+    private const DECIMAL_POINT_DELIMITER = 100;
+
     private $id;
     private $userId;
     private $year;
     private $make;
     private $model;
+    private $trips;
+    private $miles;
 
-    public function __construct(int $id, int $userId, int $year, string $make, string $model) {
+    public function __construct(int $id, int $userId, int $year, string $make, string $model, ?int $trips, ?int $miles) {
         $this->id = $id;
         $this->userId = $userId;
         $this->year = $year;
         $this->make = $make;
         $this->model = $model;
+        $this->trips = $trips;
+        $this->miles = $miles;
     }
 
     public function getId(): int
@@ -43,5 +49,15 @@ class Car
     public function getModel(): string
     {
         return $this->model;
+    }
+
+    public function getTrips(): ?int
+    {
+        return $this->trips;
+    }
+
+    public function getMiles(): ?int
+    {
+        return $this->miles ? $this->miles/self::DECIMAL_POINT_DELIMITER : null;
     }
 }

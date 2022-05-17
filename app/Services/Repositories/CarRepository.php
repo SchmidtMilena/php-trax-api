@@ -10,9 +10,9 @@ use App\Models\Car as CarModel;
 
 final class CarRepository implements CarRepositoryContract
 {
-    public function findForUser(int $userId): Collection
+    public function findForUser(): Collection
     {
-        return CarModel::where('user_id', $userId)->get()->map(
+        return CarModel::with('trips')->get()->map(
             function (CarModel $carModel): Car {
                 return $this->mapToDomainModel($carModel);
             }
@@ -36,7 +36,9 @@ final class CarRepository implements CarRepositoryContract
             $car->user_id,
             $car->year,
             $car->make,
-            $car->model
+            $car->model,
+            $car->tripsCount,
+            $car->tripsMilesSum,
         );
     }
 }
